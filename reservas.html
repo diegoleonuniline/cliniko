@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservar Cita | Dr. Mendoza - Nefrología</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="reservas.css">
+</head>
+<body>
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- LOADING -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p>Cargando información...</p>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                </svg>
+            </div>
+            <div class="logo-text">
+                Dr. Mendoza
+                <span>Nefrología</span>
+            </div>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Inicio</a>
+            <a href="reservas.html" class="active">Reservar Cita</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                Agenda en línea 24/7
+            </div>
+            <h1>Reserva tu <span>Cita Médica</span></h1>
+            <p>Selecciona el servicio, fecha y horario que mejor te convenga</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-icon">⭐</span>
+                    <div><strong>4.9/5</strong><small>Calificación</small></div>
+                </div>
+                <div class="stat">
+                    <span class="stat-icon">👥</span>
+                    <div><strong>+500</strong><small>Pacientes</small></div>
+                </div>
+                <div class="stat">
+                    <span class="stat-icon">🏥</span>
+                    <div><strong id="totalConsultorios">1</strong><small>Consultorio</small></div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-wave">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+                <path d="M0,60 C360,120 1080,0 1440,60 L1440,120 L0,120 Z" fill="currentColor"/>
+            </svg>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="main">
+        <!-- STEPPER -->
+        <div class="stepper">
+            <div class="step active" data-step="1">
+                <div class="step-number">1</div>
+                <div class="step-text">Servicios</div>
+            </div>
+            <div class="step" data-step="2">
+                <div class="step-number">2</div>
+                <div class="step-text">Doctor</div>
+            </div>
+            <div class="step" data-step="3">
+                <div class="step-number">3</div>
+                <div class="step-text">Fecha</div>
+            </div>
+            <div class="step" data-step="4">
+                <div class="step-number">4</div>
+                <div class="step-text">Datos</div>
+            </div>
+            <div class="step" data-step="5">
+                <div class="step-number">5</div>
+                <div class="step-text">Confirmar</div>
+            </div>
+        </div>
+
+        <!-- CARD CONTAINER -->
+        <div class="card-container">
+            <!-- PASO 1: SERVICIOS -->
+            <div class="paso active" id="paso1">
+                <div class="card-header">
+                    <div class="card-icon">🏥</div>
+                    <div>
+                        <h2>¿Qué servicio necesitas?</h2>
+                        <p>Selecciona uno o más servicios médicos</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="search-box">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                        <input type="text" id="searchServicios" placeholder="Buscar servicio..." oninput="filtrarServicios()">
+                    </div>
+
+                    <div class="categoria-filtros" id="categoriaFiltros"></div>
+                    <div class="servicios-grid" id="serviciosGrid"></div>
+
+                    <div class="servicios-seleccionados" id="serviciosSeleccionados" style="display:none;">
+                        <h4>✓ Servicios seleccionados</h4>
+                        <div class="tags" id="serviciosTags"></div>
+                        <div class="servicios-resumen">
+                            <span>⏱️ Duración: <strong id="totalDuracion">0 min</strong></span>
+                            <span class="total-precio" id="totalPrecio">$0</span>
+                        </div>
+                    </div>
+
+                    <div class="nav-buttons">
+                        <div></div>
+                        <button class="btn btn-primary" onclick="siguientePaso()">
+                            Continuar
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO 2: DOCTOR Y CONSULTORIO -->
+            <div class="paso" id="paso2">
+                <div class="card-header">
+                    <div class="card-icon">👨‍⚕️</div>
+                    <div>
+                        <h2>Selecciona doctor y consultorio</h2>
+                        <p>Elige dónde y con quién</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h3 class="section-title">📍 Consultorio</h3>
+                    <div class="selection-grid" id="consultoriosGrid"></div>
+
+                    <h3 class="section-title" style="margin-top:2rem;">👨‍⚕️ Doctor</h3>
+                    <div class="selection-grid" id="doctoresGrid"></div>
+
+                    <div class="nav-buttons">
+                        <button class="btn btn-secondary" onclick="anteriorPaso()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+                            Atrás
+                        </button>
+                        <button class="btn btn-primary" onclick="siguientePaso()">
+                            Continuar
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO 3: FECHA Y HORA -->
+            <div class="paso" id="paso3">
+                <div class="card-header">
+                    <div class="card-icon">📅</div>
+                    <div>
+                        <h2>Selecciona fecha y hora</h2>
+                        <p>Elige el mejor momento para ti</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="calendario-container">
+                        <div class="calendario-card">
+                            <div class="calendario-header">
+                                <h3 id="calendarioMes">Diciembre 2025</h3>
+                                <div class="calendario-nav">
+                                    <button onclick="cambiarMes(-1)">←</button>
+                                    <button onclick="cambiarMes(1)">→</button>
+                                </div>
+                            </div>
+                            <div class="calendario-semana">
+                                <span>Dom</span><span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span>
+                            </div>
+                            <div class="calendario-dias" id="calendarioDias"></div>
+                        </div>
+
+                        <div class="horarios-card">
+                            <div class="horarios-header">
+                                <h3>Horarios disponibles</h3>
+                                <span class="fecha-badge" id="fechaSeleccionadaLabel">Selecciona fecha</span>
+                            </div>
+                            <div class="horarios-grid" id="horariosGrid">
+                                <div class="horarios-empty">
+                                    <span>👆</span>
+                                    <p>Selecciona una fecha para ver horarios</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="nav-buttons">
+                        <button class="btn btn-secondary" onclick="anteriorPaso()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+                            Atrás
+                        </button>
+                        <button class="btn btn-primary" onclick="siguientePaso()" id="btnPaso3" disabled>
+                            Continuar
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO 4: DATOS -->
+            <div class="paso" id="paso4">
+                <div class="card-header">
+                    <div class="card-icon">👤</div>
+                    <div>
+                        <h2>Tus datos de contacto</h2>
+                        <p>Para confirmar tu cita</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Nombre completo *</label>
+                            <input type="text" id="inputNombre" placeholder="Tu nombre completo">
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono *</label>
+                            <input type="tel" id="inputTelefono" placeholder="10 dígitos">
+                        </div>
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" id="inputEmail" placeholder="correo@ejemplo.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Notas (opcional)</label>
+                            <input type="text" id="inputNotas" placeholder="Síntomas o indicaciones...">
+                        </div>
+                    </div>
+
+                    <div class="nav-buttons">
+                        <button class="btn btn-secondary" onclick="anteriorPaso()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+                            Atrás
+                        </button>
+                        <button class="btn btn-primary" onclick="siguientePaso()">
+                            Revisar
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO 5: CONFIRMAR -->
+            <div class="paso" id="paso5">
+                <div class="card-header">
+                    <div class="card-icon">✅</div>
+                    <div>
+                        <h2>Confirma tu reserva</h2>
+                        <p>Revisa los datos antes de confirmar</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="resumen-grid">
+                        <div class="resumen-detalle">
+                            <h4>📋 Detalles de la cita</h4>
+                            <div class="resumen-item"><span>Fecha</span><strong id="resumenFecha">-</strong></div>
+                            <div class="resumen-item"><span>Hora</span><strong id="resumenHora">-</strong></div>
+                            <div class="resumen-item"><span>Duración</span><strong id="resumenDuracion">-</strong></div>
+                            <div class="resumen-item"><span>Consultorio</span><strong id="resumenConsultorio">-</strong></div>
+                            <div class="resumen-item"><span>Doctor</span><strong id="resumenDoctor">-</strong></div>
+                            <div class="resumen-item"><span>Servicios</span><strong id="resumenServicios">-</strong></div>
+
+                            <h4 style="margin-top:1.5rem;">👤 Tus datos</h4>
+                            <div class="resumen-item"><span>Nombre</span><strong id="resumenNombre">-</strong></div>
+                            <div class="resumen-item"><span>Teléfono</span><strong id="resumenTelefono">-</strong></div>
+                            <div class="resumen-item"><span>Email</span><strong id="resumenEmail">-</strong></div>
+                        </div>
+
+                        <div class="resumen-total-card">
+                            <h3>Total a pagar</h3>
+                            <div class="total-amount" id="resumenTotal">$0</div>
+                            <p>Pago en consultorio</p>
+                            <button class="btn btn-confirmar" id="btnConfirmar" onclick="confirmarReserva()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                Confirmar Reserva
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="nav-buttons">
+                        <button class="btn btn-secondary" onclick="anteriorPaso()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+                            Modificar
+                        </button>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO ÉXITO -->
+            <div class="paso" id="pasoExito">
+                <div class="card-body">
+                    <div class="exito-content">
+                        <div class="exito-icon">
+                            <svg class="checkmark" viewBox="0 0 52 52">
+                                <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                                <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                            </svg>
+                        </div>
+                        <h2>¡Cita Confirmada!</h2>
+                        <p>Tu reserva ha sido registrada exitosamente</p>
+
+                        <div class="folio-box">
+                            <span>Número de confirmación</span>
+                            <strong id="exitoFolio">WEB-123456</strong>
+                        </div>
+
+                        <div class="exito-detalles">
+                            <div class="exito-item"><span>📅</span><strong id="exitoFechaHora">-</strong></div>
+                            <div class="exito-item"><span>🏥</span><strong id="exitoConsultorio">-</strong></div>
+                            <div class="exito-item"><span>👨‍⚕️</span><strong id="exitoDoctor">-</strong></div>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="nuevaReserva()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                            Nueva Reserva
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- CONFETTI -->
+    <canvas id="confetti"></canvas>
+
+    <script src="reservas.js"></script>
+</body>
+</html>

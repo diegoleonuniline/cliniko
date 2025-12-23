@@ -67,7 +67,7 @@ form.addEventListener('submit', async function(e) {
         Teléfono: document.getElementById('telefono').value,
         Email: document.getElementById('email').value,
         FechaNacimiento: document.getElementById('fechaNacimiento').value || '',
-        Sexo: document.querySelector('input[name="sexo"]:checked')?.value || '',
+      Sexo: document.querySelector('input[name="sexo"]:checked') ? document.querySelector('input[name="sexo"]:checked').value : '',
         'Motivo de Visita': document.getElementById('motivoVisita').value,
         Notas: document.getElementById('notas').value || '',
         FechaRegistro: new Date().toLocaleDateString('en-US')

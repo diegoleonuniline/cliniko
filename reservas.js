@@ -436,8 +436,8 @@ function actualizarResumen() {
 async function confirmarReserva() {
     var btn = document.getElementById('btnConfirmar');
     btn.disabled = true;
-    btn.innerHTML = '<div class="loading-spinner" style="width:20px;height:20px;border-width:2px;"></div> Procesando...';
-    
+    btn.innerHTML = '<div class="loading-spinner" style="width:20px;height:20px;border-width:2px;"></div> Reservando...';
+
     try {
         var res = await fetch(API + '/reservar', {
             method: 'POST',
@@ -454,21 +454,27 @@ async function confirmarReserva() {
                 notas: reserva.notas
             })
         });
-        
+
         var resultado = await res.json();
-        
+
         if (resultado.success) {
+            // Formatear fecha bonita
+            var fechaObj = new Date(reserva.fecha + 'T12:00:00');
+            var opciones = { weekday: 'long', day: 'numeric', month: 'long' };
+            var fechaBonita = fechaObj.toLocaleDateString('es-MX', opciones);
+            fechaBonita = fechaBonita.charAt(0).toUpperCase() + fechaBonita.slice(1);
+
             document.getElementById('exitoFolio').textContent = resultado.folio;
-            document.getElementById('exitoFechaHora').textContent = resultado.fecha + ' ' + resultado.hora;
+            document.getElementById('exitoFechaHora').textContent = fechaBonita + ' a las ' + reserva.hora + ' hrs';
             document.getElementById('exitoConsultorio').textContent = resultado.sucursal;
             document.getElementById('exitoDoctor').textContent = resultado.doctor;
-            
+
             document.querySelectorAll('.paso').forEach(function(p) { p.classList.remove('active'); });
             document.getElementById('pasoExito').classList.add('active');
             document.querySelectorAll('.step').forEach(function(s) { s.classList.add('completed'); });
-            
+
             lanzarConfetti();
-            showToast('success', '¡Listo!', 'Cita reservada');
+            showToast('success', '¡Listo!', 'Tu cita ha sido reservada');
         } else {
             showToast('error', 'Error', resultado.error || 'No se pudo reservar');
             btn.disabled = false;

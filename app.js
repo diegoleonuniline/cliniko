@@ -61,7 +61,7 @@ document.getElementById('formCliente').addEventListener('submit', async function
         Sexo: document.getElementById('sexo').value,
         'Motivo de Visita': document.getElementById('motivoVisita').value,
         Notas: document.getElementById('notas').value,
-        FechaRegistro: new Date().toLocaleDateString('en-US')
+      FechaRegistro: new Date().toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric'})
     };
     
     try {

@@ -3,148 +3,254 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cliniko - Sistema de Citas</title>
+    <title>Agendar Cita | Dr. Ricardo Mendoza - Nefrología</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- PARTICLES -->
+    <div class="particles" id="particles"></div>
+
     <!-- NAVBAR -->
     <nav class="navbar">
-        <div class="logo">
-            <div class="logo-icon">💊</div>
-            <span>Cliniko</span>
-        </div>
+        <a href="#" class="logo">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+            </div>
+            <div class="logo-text">
+                Dr. Mendoza
+                <span>Nefrología</span>
+            </div>
+        </a>
         <div class="nav-links">
-            <a href="#" class="active">Nuevo Paciente</a>
-            <a href="#">Citas</a>
-            <a href="#">Pacientes</a>
+            <a href="#">Inicio</a>
+            <a href="#">Servicios</a>
+            <a href="#">El Doctor</a>
+            <a href="#" class="nav-cta">Agendar Cita</a>
         </div>
     </nav>
 
     <!-- HEADER -->
     <header class="header">
+        <div class="header-bg"></div>
         <div class="header-content">
-            <h1>Registro de Pacientes</h1>
-            <p>Complete el formulario para agendar una cita</p>
+            <div class="badge animate-fade-down">
+                <span class="badge-dot"></span>
+                Sistema de Citas en Línea
+            </div>
+            <h1 class="animate-fade-up">Agendar <span>Cita Médica</span></h1>
+            <p class="animate-fade-up delay-1">Complete el formulario y nos pondremos en contacto para confirmar su cita</p>
         </div>
-        <div class="header-decoration"></div>
+        <div class="header-wave">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+                <path d="M0,60 C360,120 1080,0 1440,60 L1440,120 L0,120 Z" fill="currentColor"/>
+            </svg>
+        </div>
     </header>
 
     <!-- MAIN -->
-    <main class="main-content">
-        <div class="form-card">
-            <div class="card-header">
-                <div class="card-icon">📋</div>
-                <h2>Nuevo Paciente</h2>
-                <p>Ingrese los datos del paciente</p>
-            </div>
-
-            <form id="formCliente">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>
-                            <span class="label-icon">👤</span>
-                            Nombre Completo
-                            <span class="required">*</span>
-                        </label>
-                        <input type="text" id="nombre" placeholder="Ej: Juan Pérez García" required>
+    <main class="main">
+        <div class="container">
+            <!-- INFO CARDS -->
+            <div class="info-section animate-fade-right">
+                <div class="info-card">
+                    <div class="info-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
                     </div>
-
-                    <div class="form-group">
-                        <label>
-                            <span class="label-icon">📱</span>
-                            Teléfono
-                            <span class="required">*</span>
-                        </label>
-                        <input type="tel" id="telefono" placeholder="Ej: 33 1234 5678" required>
+                    <div class="info-content">
+                        <h4>Ubicación</h4>
+                        <p>Av. Patria 1891, Guadalajara</p>
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>
-                            <span class="label-icon">✉️</span>
-                            Email
-                            <span class="required">*</span>
-                        </label>
-                        <input type="email" id="email" placeholder="correo@ejemplo.com" required>
+                <div class="info-card">
+                    <div class="info-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
                     </div>
-
-                    <div class="form-group">
-                        <label>
-                            <span class="label-icon">🎂</span>
-                            Fecha de Nacimiento
-                        </label>
-                        <input type="date" id="fechaNacimiento">
+                    <div class="info-content">
+                        <h4>Teléfono</h4>
+                        <p>+52 (33) 3123-4567</p>
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>
-                            <span class="label-icon">⚧</span>
-                            Sexo
-                        </label>
-                        <div class="radio-group">
-                            <label class="radio-item">
-                                <input type="radio" name="sexo" value="Masculino">
-                                <span class="radio-custom"></span>
-                                Masculino
-                            </label>
-                            <label class="radio-item">
-                                <input type="radio" name="sexo" value="Femenino">
-                                <span class="radio-custom"></span>
-                                Femenino
-                            </label>
+                <div class="info-card">
+                    <div class="info-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                    </div>
+                    <div class="info-content">
+                        <h4>Horario</h4>
+                        <p>Lun - Vie: 9:00 - 19:00</p>
+                    </div>
+                </div>
+
+                <div class="doctor-card">
+                    <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400" alt="Dr. Mendoza">
+                    <div class="doctor-info">
+                        <h3>Dr. Ricardo Mendoza</h3>
+                        <p>Especialista en Nefrología</p>
+                        <div class="doctor-badges">
+                            <span>UNAM</span>
+                            <span>20+ años</span>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <div class="form-group">
-                        <label>
-                            <span class="label-icon">🏥</span>
-                            Servicio
-                            <span class="required">*</span>
-                        </label>
-                        <select id="motivoVisita" required>
-                            <option value="">Cargando servicios...</option>
-                        </select>
+            <!-- FORM -->
+            <div class="form-section animate-fade-left">
+                <div class="form-card">
+                    <div class="form-header">
+                        <div class="form-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                            </svg>
+                        </div>
+                        <h2>Solicitar Cita</h2>
+                        <p>Complete sus datos para agendar</p>
                     </div>
+
+                    <form id="formCliente">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Nombre Completo <span>*</span></label>
+                                <div class="input-wrap">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                    </svg>
+                                    <input type="text" id="nombre" placeholder="Juan Pérez García" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Teléfono <span>*</span></label>
+                                <div class="input-wrap">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                    </svg>
+                                    <input type="tel" id="telefono" placeholder="33 1234 5678" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Email <span>*</span></label>
+                                <div class="input-wrap">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                        <polyline points="22,6 12,13 2,6"/>
+                                    </svg>
+                                    <input type="email" id="email" placeholder="correo@ejemplo.com" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Fecha de Nacimiento</label>
+                                <div class="input-wrap">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                        <line x1="16" y1="2" x2="16" y2="6"/>
+                                        <line x1="8" y1="2" x2="8" y2="6"/>
+                                        <line x1="3" y1="10" x2="21" y2="10"/>
+                                    </svg>
+                                    <input type="date" id="fechaNacimiento">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Sexo</label>
+                                <div class="radio-group">
+                                    <label class="radio-item">
+                                        <input type="radio" name="sexo" value="Masculino">
+                                        <span class="radio-box"></span>
+                                        <span>Masculino</span>
+                                    </label>
+                                    <label class="radio-item">
+                                        <input type="radio" name="sexo" value="Femenino">
+                                        <span class="radio-box"></span>
+                                        <span>Femenino</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Motivo de Consulta <span>*</span></label>
+                                <div class="input-wrap">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                                    </svg>
+                                    <select id="motivoVisita" required>
+                                        <option value="">Cargando servicios...</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group full">
+                                <label>Notas Adicionales</label>
+                                <div class="input-wrap textarea-wrap">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="17" y1="10" x2="3" y2="10"/>
+                                        <line x1="21" y1="6" x2="3" y2="6"/>
+                                        <line x1="21" y1="14" x2="3" y2="14"/>
+                                        <line x1="17" y1="18" x2="3" y2="18"/>
+                                    </svg>
+                                    <textarea id="notas" rows="3" placeholder="Describa sus síntomas o motivo de consulta..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-submit" id="btnEnviar">
+                            <span class="btn-content">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                    <polyline points="22 4 12 14.01 9 11.01"/>
+                                </svg>
+                                Solicitar Cita
+                            </span>
+                            <span class="btn-loading">
+                                <div class="spinner"></div>
+                                Procesando...
+                            </span>
+                        </button>
+                    </form>
                 </div>
-
-                <div class="form-group full-width">
-                    <label>
-                        <span class="label-icon">📝</span>
-                        Notas Adicionales
-                    </label>
-                    <textarea id="notas" rows="3" placeholder="Síntomas, observaciones, etc..."></textarea>
-                </div>
-
-                <button type="submit" class="btn-submit" id="btnEnviar">
-                    <span class="btn-text">
-                        <span class="btn-icon">✓</span>
-                        Registrar Paciente
-                    </span>
-                    <span class="btn-loader">
-                        <span class="spinner"></span>
-                        Guardando...
-                    </span>
-                </button>
-            </form>
-
-            <div class="mensaje" id="mensaje"></div>
+            </div>
         </div>
     </main>
 
     <!-- SUCCESS MODAL -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal">
-            <div class="modal-icon">✅</div>
-            <h3>¡Paciente Registrado!</h3>
-            <p>El paciente ha sido agregado exitosamente al sistema.</p>
+            <div class="modal-success-icon">
+                <svg class="checkmark" viewBox="0 0 52 52">
+                    <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+            </div>
+            <h3>¡Cita Solicitada!</h3>
+            <p>Nos comunicaremos pronto para confirmar</p>
             <div class="modal-details" id="modalDetails"></div>
-            <button class="btn-modal" onclick="cerrarModal()">Registrar Otro</button>
+            <button class="btn-modal" onclick="cerrarModal()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12h14"/>
+                </svg>
+                Nueva Cita
+            </button>
         </div>
     </div>
 

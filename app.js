@@ -4,7 +4,17 @@
 const API = 'https://yellow-pond-ca9a.diego-leon.workers.dev';
 
 // =============================================
-// LEER - Cargar servicios desde AppSheet
+// ELEMENTOS
+// =============================================
+const form = document.getElementById('formCliente');
+const btn = document.getElementById('btnEnviar');
+const mensaje = document.getElementById('mensaje');
+const modal = document.getElementById('modalOverlay');
+const modalDetails = document.getElementById('modalDetails');
+const confettiCanvas = document.getElementById('confetti');
+
+// =============================================
+// CARGAR SERVICIOS
 // =============================================
 async function cargarServicios() {
     try {
@@ -15,7 +25,7 @@ async function cargarServicios() {
         select.innerHTML = '<option value="">Seleccionar servicio...</option>';
         
         servicios.forEach(s => {
-            select.innerHTML += `<option value="${s.ID}">${s.Nombre} - $${s.Precio}</option>`;
+            select.innerHTML += `<option value="${s.ID}" data-nombre="${s.Nombre}" data-precio="${s.Precio}">${s.Nombre} - $${s.Precio}</option>`;
         });
         
         console.log('✅ Servicios cargados:', servicios.length);
@@ -25,7 +35,7 @@ async function cargarServicios() {
 }
 
 // =============================================
-// AGREGAR - Guardar cliente en AppSheet
+// AGREGAR CLIENTE
 // =============================================
 async function agregarCliente(datos) {
     const res = await fetch(API + '/clientes', {
@@ -40,39 +50,43 @@ async function agregarCliente(datos) {
 }
 
 // =============================================
-// FORMULARIO - Manejar envío
+// FORMULARIO
 // =============================================
-document.getElementById('formCliente').addEventListener('submit', async function(e) {
+form.addEventListener('submit', async function(e) {
     e.preventDefault();
     
-    const btn = document.getElementById('btnEnviar');
-    const mensaje = document.getElementById('mensaje');
-    
     btn.disabled = true;
-    btn.textContent = 'Guardando...';
+    btn.classList.add('loading');
     mensaje.className = 'mensaje';
     
-    // Datos del formulario
+    const selectServicio = document.getElementById('motivoVisita');
+    const servicioSeleccionado = selectServicio.options[selectServicio.selectedIndex];
+    
     const datos = {
         Nombre: document.getElementById('nombre').value,
-        'Teléfono': document.getElementById('telefono').value,
+        Teléfono: document.getElementById('telefono').value,
         Email: document.getElementById('email').value,
-        FechaNacimiento: document.getElementById('fechaNacimiento').value,
-        Sexo: document.getElementById('sexo').value,
+        FechaNacimiento: document.getElementById('fechaNacimiento').value || '',
+        Sexo: document.querySelector('input[name="sexo"]:checked')?.value || '',
         'Motivo de Visita': document.getElementById('motivoVisita').value,
-        Notas: document.getElementById('notas').value,
-      FechaRegistro: new Date().toLocaleDateString('en-US', {month: '2-digit', day: '2-digit', year: 'numeric'})
+        Notas: document.getElementById('notas').value || '',
+        FechaRegistro: new Date().toLocaleDateString('en-US')
     };
     
     try {
-        // AGREGAR a AppSheet
-        const resultado = await agregarCliente(datos);
+        await agregarCliente(datos);
         
-        console.log('✅ Cliente guardado:', resultado);
+        // Mostrar modal de éxito
+        modalDetails.innerHTML = `
+            <div><span>Paciente</span><span>${datos.Nombre}</span></div>
+            <div><span>Teléfono</span><span>${datos.Teléfono}</span></div>
+            <div><span>Servicio</span><span>${servicioSeleccionado.dataset.nombre}</span></div>
+        `;
         
-        mensaje.className = 'mensaje exito';
-        mensaje.textContent = '✅ Paciente registrado correctamente!';
-        this.reset();
+        modal.classList.add('active');
+        lanzarConfetti();
+        
+        form.reset();
         cargarServicios();
         
     } catch (error) {
@@ -82,10 +96,81 @@ document.getElementById('formCliente').addEventListener('submit', async function
     }
     
     btn.disabled = false;
-    btn.textContent = 'Registrar Paciente';
+    btn.classList.remove('loading');
 });
 
 // =============================================
-// INICIAR - Cuando carga la página
+// CERRAR MODAL
+// =============================================
+function cerrarModal() {
+    modal.classList.remove('active');
+}
+
+// =============================================
+// CONFETTI
+// =============================================
+function lanzarConfetti() {
+    const ctx = confettiCanvas.getContext('2d');
+    confettiCanvas.width = window.innerWidth;
+    confettiCanvas.height = window.innerHeight;
+    
+    const particles = [];
+    const colors = ['#00d9ff', '#00ff88', '#ff6b6b', '#ffd93d', '#6c5ce7', '#a29bfe'];
+    
+    for (let i = 0; i < 150; i++) {
+        particles.push({
+            x: Math.random() * confettiCanvas.width,
+            y: -20 - Math.random() * 100,
+            size: Math.random() * 8 + 4,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            speedY: Math.random() * 3 + 2,
+            speedX: (Math.random() - 0.5) * 4,
+            rotation: Math.random() * 360,
+            rotationSpeed: (Math.random() - 0.5) * 10
+        });
+    }
+    
+    function animate() {
+        ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        
+        let activas = 0;
+        
+        particles.forEach(p => {
+            if (p.y < confettiCanvas.height + 20) {
+                activas++;
+                p.y += p.speedY;
+                p.x += p.speedX;
+                p.rotation += p.rotationSpeed;
+                p.speedY += 0.1;
+                
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rotation * Math.PI / 180);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+                ctx.restore();
+            }
+        });
+        
+        if (activas > 0) {
+            requestAnimationFrame(animate);
+        } else {
+            ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        }
+    }
+    
+    animate();
+}
+
+// =============================================
+// RESIZE
+// =============================================
+window.addEventListener('resize', () => {
+    confettiCanvas.width = window.innerWidth;
+    confettiCanvas.height = window.innerHeight;
+});
+
+// =============================================
+// INICIAR
 // =============================================
 cargarServicios();

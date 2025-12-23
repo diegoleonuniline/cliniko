@@ -413,14 +413,18 @@ function mostrarPaso() {
 // RESUMEN
 // =============================================
 function actualizarResumen() {
-    var fecha = new Date(reserva.fecha + 'T12:00:00');
+    var fechaObj = new Date(reserva.fecha + 'T12:00:00');
+    var opciones = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+    var fechaBonita = fechaObj.toLocaleDateString('es-MX', opciones);
+    fechaBonita = fechaBonita.charAt(0).toUpperCase() + fechaBonita.slice(1);
+
     var duracion = 0;
     var total = 0;
     reserva.servicios.forEach(function(s) { duracion += s.duracion; total += s.precio; });
-    
-    document.getElementById('resumenFecha').textContent = fecha.toLocaleDateString('es-MX', { weekday: 'short', day: 'numeric', month: 'short' });
-    document.getElementById('resumenHora').textContent = reserva.hora;
-    document.getElementById('resumenDuracion').textContent = duracion + ' min';
+
+    document.getElementById('resumenFecha').textContent = fechaBonita;
+    document.getElementById('resumenHora').textContent = reserva.hora + ' hrs';
+    document.getElementById('resumenDuracion').textContent = duracion + ' minutos';
     document.getElementById('resumenConsultorio').textContent = reserva.sucursal;
     document.getElementById('resumenDoctor').textContent = reserva.doctor;
     document.getElementById('resumenServicios').textContent = reserva.servicios.map(function(s) { return s.nombre; }).join(', ');
